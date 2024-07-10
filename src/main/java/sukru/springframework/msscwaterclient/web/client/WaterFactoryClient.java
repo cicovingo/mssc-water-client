@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import sukru.springframework.msscwaterclient.web.model.CustomerDto;
 import sukru.springframework.msscwaterclient.web.model.WaterDto;
 
 import java.net.URI;
@@ -14,6 +15,8 @@ import java.util.UUID;
 public class WaterFactoryClient {
 
     public final String WATER_PATH_V1 = "/api/v1/water/";
+    public final String CUSTOMER_PATH_V1 = "/api/v1/customer/";
+
     private String apihost;
 
     private final RestTemplate restTemplate;
@@ -40,5 +43,21 @@ public class WaterFactoryClient {
 
     public void setApihost(String apihost) {
         this.apihost = apihost;
+    }
+
+    public CustomerDto getCustomerById(UUID uuid){
+        return restTemplate.getForObject(apihost + CUSTOMER_PATH_V1 + uuid.toString(), CustomerDto.class);
+    }
+
+    public URI saveCustomerDto(CustomerDto dto){
+        return restTemplate.postForLocation(apihost + CUSTOMER_PATH_V1, dto);
+    }
+
+    public void updateCustomer(UUID uuid, CustomerDto dto){
+        restTemplate.put(apihost + CUSTOMER_PATH_V1 + "/" + uuid.toString(), dto);
+    }
+
+    public void deleteCustomer(UUID uuid){
+        restTemplate.delete(apihost + CUSTOMER_PATH_V1 + "/" + uuid);
     }
 }

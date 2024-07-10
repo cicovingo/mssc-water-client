@@ -3,6 +3,7 @@ package sukru.springframework.msscwaterclient.web.client;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import sukru.springframework.msscwaterclient.web.model.CustomerDto;
 import sukru.springframework.msscwaterclient.web.model.WaterDto;
 
 import java.net.URI;
@@ -14,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WaterFactoryClientTest {
 
     @Autowired
-    WaterFactoryClient waterFactoryClient;
+    WaterFactoryClient client;
 
     @Test
     void getWaterById() {
-        WaterDto waterDto = waterFactoryClient.getWaterById(UUID.randomUUID());
+        WaterDto waterDto = client.getWaterById(UUID.randomUUID());
         assertNotNull(waterDto);
     }
 
@@ -26,7 +27,7 @@ public class WaterFactoryClientTest {
     void testSaveNewWater() {
         WaterDto waterDto = WaterDto.builder().waterName("Water").build();
 
-        URI uri = waterFactoryClient.saveWaterDto(waterDto);
+        URI uri = client.saveWaterDto(waterDto);
         assertNotNull(uri);
 
         System.out.println(uri.toString());
@@ -36,11 +37,39 @@ public class WaterFactoryClientTest {
     void testUpdateWater() {
         WaterDto waterDto = WaterDto.builder().waterName("Water").build();
 
-        waterFactoryClient.updateWater(UUID.randomUUID(), waterDto);
+        client.updateWater(UUID.randomUUID(), waterDto);
     }
 
     @Test
     void testDeleteWater() {
-        waterFactoryClient.deleteWater(UUID.randomUUID());
+        client.deleteWater(UUID.randomUUID());
+    }
+
+    @Test
+    void getCustomerById() {
+        CustomerDto waterDto = client.getCustomerById(UUID.randomUUID());
+        assertNotNull(waterDto);
+    }
+
+    @Test
+    void testSaveNewCustomer() {
+        CustomerDto customerDto = CustomerDto.builder().name("test 1").build();
+
+        URI uri = client.saveCustomerDto(customerDto);
+        assertNotNull(uri);
+
+        System.out.println(uri.toString());
+    }
+
+    @Test
+    void testUpdateCustomer() {
+        CustomerDto customerDto = CustomerDto.builder().name("test 2").build();
+
+        client.updateCustomer(UUID.randomUUID(), customerDto);
+    }
+
+    @Test
+    void testDeleteCustomer() {
+        client.deleteCustomer(UUID.randomUUID());
     }
 }
