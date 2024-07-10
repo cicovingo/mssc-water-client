@@ -1,0 +1,1 @@
+package sukru.springframework.msscwaterclient.web.client;
