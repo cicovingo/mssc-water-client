@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import sukru.springframework.msscwaterclient.web.model.WaterDto;
 
+import java.net.URI;
 import java.util.UUID;
 
 @ConfigurationProperties(prefix = "sfg.water-factory", ignoreUnknownFields = false)
@@ -23,6 +24,18 @@ public class WaterFactoryClient {
 
     public WaterDto getWaterById(UUID uuid){
         return restTemplate.getForObject(apihost + WATER_PATH_V1 + uuid.toString(), WaterDto.class);
+    }
+
+    public URI saveWaterDto(WaterDto dto){
+        return restTemplate.postForLocation(apihost + WATER_PATH_V1, dto);
+    }
+
+    public void updateWater(UUID uuid, WaterDto dto){
+        restTemplate.put(apihost + WATER_PATH_V1 + "/" + uuid.toString(), dto);
+    }
+
+    public void deleteWater(UUID uuid){
+        restTemplate.delete(apihost + WATER_PATH_V1 + "/" + uuid);
     }
 
     public void setApihost(String apihost) {
